@@ -11,7 +11,7 @@ class Scoreboard:
     player_traveled_display = []
     player_excess_distance_display = []
     player_path_display = []
-    player_percent_nodes_visited_display = []
+    player_multiple_of_direct_distance_display = []
 
     def __init__(self, batch, group):
         self.batch = batch
@@ -54,13 +54,13 @@ class Scoreboard:
                 (path_label, player))
 
             # ADDED: 
-            percent_nodes_visited_label = pyglet.text.Label("Percentage of Nodes Visited:",
+            multiple_of_direct_distance_label = pyglet.text.Label("Multiple of Direct Distance:",
                                                             x=0,
                                                             y=0,
                                                             font_name='Arial',
                                                             font_size=self.font_size, batch=batch, group=group, color=player[2][colors.TEXT_INDEX])
-            self.player_percent_nodes_visited_display.append(
-                (percent_nodes_visited_label, player))
+            self.player_multiple_of_direct_distance_display.append(
+                (multiple_of_direct_distance_label, player))
             
 
 
@@ -80,7 +80,7 @@ class Scoreboard:
         for index, (display_element, player) in enumerate(self.player_path_display):
             display_element.x = config_data.window_width - self.stat_width
             display_element.y = config_data.window_height - self.base_height_offset - self.stat_height * 5 - self.stat_height * (index * self.number_of_stats)
-        for index, (display_element, player) in enumerate(self.player_percent_nodes_visited_display):
+        for index, (display_element, player) in enumerate(self.player_multiple_of_direct_distance_display):
             display_element.x = config_data.window_width - self.stat_width
             display_element.y = config_data.window_height - self.base_height_offset - self.stat_height * 6 - self.stat_height * (index * self.number_of_stats)
         
@@ -112,11 +112,11 @@ class Scoreboard:
                 if player_object.player_config_data == player_configuration_info:
                     display_element.text = "Excess Distance Traveled: " + str(max(0, int(player_object.distance_traveled-self.distance_to_exit)))
 
-    def update_percentage_visited(self):
-        for display_element, player_configuration_info in self.player_percent_nodes_visited_display:
+    def update_multiple_of_direct_distance(self):
+        for display_element, player_configuration_info in self.player_multiple_of_direct_distance_display:
             for player_object in global_game_data.player_objects:
                 if player_object.player_config_data == player_configuration_info:
-                    display_element.text = "Percentage of Nodes Visited: " + str("SOMETHING")
+                    display_element.text = "Multiple of Direct Distance: " + str("%.3f" % (player_object.distance_traveled / self.distance_to_exit))
 
 
     def update_scoreboard(self):
@@ -124,4 +124,4 @@ class Scoreboard:
         self.update_paths()
         self.update_distance_to_exit()
         self.update_distance_traveled()
-        self.update_percentage_visited()
+        self.update_multiple_of_direct_distance()

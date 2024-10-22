@@ -12,6 +12,7 @@ class Scoreboard:
     player_excess_distance_display = []
     player_path_display = []
     player_multiple_of_direct_distance_display = []
+    winner_display = []
 
     def __init__(self, batch, group):
         self.batch = batch
@@ -62,6 +63,9 @@ class Scoreboard:
             self.player_multiple_of_direct_distance_display.append(
                 (multiple_of_direct_distance_label, player))
             
+            winner_label = pyglet.text.Label("Winner:", x=0, y=0, font_name='Arial', 
+                                             font_size=self.font_size, batch=batch, group=group, color=player[2][colors.TEXT_INDEX])
+            self.winner_display.append(winner_label)
 
 
 
@@ -83,6 +87,11 @@ class Scoreboard:
         for index, (display_element, player) in enumerate(self.player_multiple_of_direct_distance_display):
             display_element.x = config_data.window_width - self.stat_width
             display_element.y = config_data.window_height - self.base_height_offset - self.stat_height * 6 - self.stat_height * (index * self.number_of_stats)
+
+        # Adds the winner display to the display
+        display_winner = self.winner_display[0]
+        display_winner.x = display_element.x = config_data.window_width - self.stat_width
+        display_winner.y = config_data.window_height - self.stat_height * 26
         
 
     def update_paths(self):
@@ -118,6 +127,24 @@ class Scoreboard:
                 if player_object.player_config_data == player_configuration_info:
                     display_element.text = "Multiple of Direct Distance: " + str("%.3f" % (player_object.distance_traveled / self.distance_to_exit))
 
+    def update_winner_display(self):
+        candidates = []
+        target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
+        for player_index in range(len(global_game_data.player_objects)):
+            if target_node_index in global_game_data.graph_paths[player_index] and global_game_data.player_objects[player_index].distance_traveled > 0:
+                candidates.append(player_index)
+        if not candidates:
+            self.winner_display[0].text = "Winner: "
+        else: 
+            winner_index = candidates[0]
+            for index in range(len(candidates)):
+                # Need to check to make sure winner index is in candiates, may need to refactor
+                if global_game_data.player_objects[candidates[index]].distance_traveled < global_game_data.player_objects[winner_index].distance_traveled:
+                    winner_index = candidates[index]
+            self.winner_display[0].text = "Winner: " + str(config_data.player_data[winner_index][0])
+            
+
+
 
     def update_scoreboard(self):
         self.update_elements_locations()
@@ -125,3 +152,4 @@ class Scoreboard:
         self.update_distance_to_exit()
         self.update_distance_traveled()
         self.update_multiple_of_direct_distance()
+        self.update_winner_display()

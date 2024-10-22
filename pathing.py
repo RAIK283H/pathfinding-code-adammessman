@@ -71,9 +71,6 @@ def dfs_path_until_found(start_index, current_graph, target_index):
                 # visited.add(adjacent)
                 parents[adjacent] = current
                 next_list.insert(0, adjacent)
-                
-    
-    
 
 def get_dfs_path():
 
@@ -83,7 +80,7 @@ def get_dfs_path():
     exit_node_index = len(current_graph) - 1
     
     path = dfs_path_until_found(current_node_index, current_graph, target_node_index)
-    # path = path.concat(dfs_path_until_found(target_node_index, current_graph, exit_node_index))
+    path = path + dfs_path_until_found(target_node_index, current_graph, exit_node_index)
 
     return path
 

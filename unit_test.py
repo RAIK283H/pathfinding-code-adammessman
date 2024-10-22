@@ -1,5 +1,7 @@
 import math
 import unittest
+import graph_data
+import pathing
 
 
 class TestPathFinding(unittest.TestCase):
@@ -23,20 +25,24 @@ class TestPathFinding(unittest.TestCase):
         self.assertNotEqual(almost_pi, pi)
         self.assertAlmostEqual(first=almost_pi, second=pi, delta=1e-1)
 
-    graph = [
-        [(45, 45), [1]],
-        [(100, 245), [0, 2, 4]],
-        [(200, 245), [1, 3, 5]],
-        [(300, 145), [2, 6]],
-        [(100, 345), [1, 5, 7]],
-        [(200, 345), [2, 4, 6, 8]],
-        [(300, 345), [3, 9]],
-        [(100, 545), [4, 8]],
-        [(200, 445), [5, 7, 9]],
-        [(300, 445), [6, 8, 10]],
-        [(1200, 700), [9]]]    
-    def test_create_dfs_path(self):
-        
+    def test_create_dfs_path_to_target_happy(self):
+        current_graph  = graph_data.graph_data[3]
+        start_index =  0
+        target_index = 2
+        expected = [0, 4, 8, 12, 13, 9, 5, 1, 2]
+        actual = pathing.dfs_path_until_found(start_index, current_graph, target_index)
+        self.assertEqual(expected, actual, 'Path for DFS is not accurate.')
+
+    def test_create_dfs_path_to_target_back_track(self):
+        current_graph  = graph_data.graph_data[7]
+        start_index =  0
+        target_index = 5
+        expected = [0, 8, 9, 7, 9, 6, 9, 5]
+        actual = pathing.dfs_path_until_found(start_index, current_graph, target_index)
+        self.assertEqual(expected, actual, 'Path with DFS back tracking is not accurate.')
+
+    # TODO: UNIT TEST BFS
+
 
 if __name__ == '__main__':
     unittest.main()

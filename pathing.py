@@ -87,6 +87,12 @@ def get_dfs_path():
     path = dfs_path_until_found(current_node_index, current_graph, target_node_index)
     path = path + dfs_path_until_found(target_node_index, current_graph, exit_node_index)
 
+    # Postcondition Inline Testing
+    assert target_node_index in path, 'Target Node Index is not in the path.'
+    assert path[len(path) - 1] == exit_node_index, 'Path does not end at exit node.'
+    for index in range(len(path) - 1):
+        assert (path[index] in current_graph[path[index + 1]][1] or path[index] == path[index + 1]), 'Nodes are not connected by an edge.'
+
     return path
 
 def bfs_path_until_found(start_index, current_graph, target_index):

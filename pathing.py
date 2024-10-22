@@ -56,9 +56,11 @@ def dfs_path_until_found(start_index, current_graph, target_index):
     visited = set()
     parents = {}
 
-    while next_list and (path[len(path) - 1] != target_index):
+    while next_list:
         current = next_list.pop(0)
         path.append(current)
+        if (path[len(path) - 1] == target_index):
+            break
         adjacents = current_graph[current][1]
         for i in range(len(adjacents)):
             adjacent = adjacents[i]
@@ -66,6 +68,14 @@ def dfs_path_until_found(start_index, current_graph, target_index):
                 visited.add(adjacent)
                 parents[adjacent] = current
                 next_list.insert(0, adjacents[i])
+            # if i == len(adjacents):
+            #     path.append(parents[current])
+
+
+
+    # while current:
+    #     path.append(parents[current])
+    #     current = parents[current]
 
     return path
     

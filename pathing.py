@@ -50,7 +50,6 @@ def get_random_path():
 def dfs_path_until_found(start_index, current_graph, target_index):
     path = []
     next_list = []
-    path.append(start_index)
     next_list.append(start_index)
 
     visited = set()
@@ -59,25 +58,21 @@ def dfs_path_until_found(start_index, current_graph, target_index):
     while next_list:
         current = next_list.pop(0)
         path.append(current)
-        if (path[len(path) - 1] == target_index):
-            break
+        visited.add(current)
         adjacents = current_graph[current][1]
+        if (current == target_index):
+            return path
+        if all(element in visited for element in adjacents): 
+            # path.append(parents[current])
+            next_list.insert(0,parents[current])
         for i in range(len(adjacents)):
             adjacent = adjacents[i]
             if adjacent not in visited:
-                visited.add(adjacent)
+                # visited.add(adjacent)
                 parents[adjacent] = current
-                next_list.insert(0, adjacents[i])
-            # if i == len(adjacents):
-            #     path.append(parents[current])
-
-
-
-    # while current:
-    #     path.append(parents[current])
-    #     current = parents[current]
-
-    return path
+                next_list.insert(0, adjacent)
+                
+    
     
 
 def get_dfs_path():
@@ -86,8 +81,7 @@ def get_dfs_path():
     current_node_index = 0
     target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
     exit_node_index = len(current_graph) - 1
-    path = []
-    visited = set()
+    
     path = dfs_path_until_found(current_node_index, current_graph, target_node_index)
     # path = path.concat(dfs_path_until_found(target_node_index, current_graph, exit_node_index))
 

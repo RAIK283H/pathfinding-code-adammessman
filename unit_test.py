@@ -23,6 +23,20 @@ class TestPathFinding(unittest.TestCase):
         self.assertNotEqual(almost_pi, pi)
         self.assertAlmostEqual(first=almost_pi, second=pi, delta=1e-1)
 
+    graph = [
+        [(45, 45), [1]],
+        [(100, 245), [0, 2, 4]],
+        [(200, 245), [1, 3, 5]],
+        [(300, 145), [2, 6]],
+        [(100, 345), [1, 5, 7]],
+        [(200, 345), [2, 4, 6, 8]],
+        [(300, 345), [3, 9]],
+        [(100, 545), [4, 8]],
+        [(200, 445), [5, 7, 9]],
+        [(300, 445), [6, 8, 10]],
+        [(1200, 700), [9]]]    
+    def test_create_dfs_path(self):
+        
 
 if __name__ == '__main__':
     unittest.main()

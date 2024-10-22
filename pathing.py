@@ -47,8 +47,42 @@ def get_random_path():
     
 
 
+def dfs_path_until_found(start_index, current_graph, target_index):
+    path = []
+    next_list = []
+    path.append(start_index)
+    next_list.append(start_index)
+
+    visited = set()
+    parents = {}
+
+    while next_list and (path[len(path) - 1] != target_index):
+        current = next_list.pop(0)
+        path.append(current)
+        adjacents = current_graph[current][1]
+        for i in range(len(adjacents)):
+            adjacent = adjacents[i]
+            if adjacent not in visited:
+                visited.add(adjacent)
+                parents[adjacent] = current
+                next_list.insert(0, adjacents[i])
+
+    return path
+    
+
 def get_dfs_path():
-    return [1,2]
+
+    current_graph = graph_data.graph_data[global_game_data.current_graph_index]
+    current_node_index = 0
+    target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
+    exit_node_index = len(current_graph) - 1
+    path = []
+    visited = set()
+    path = dfs_path_until_found(current_node_index, current_graph, target_node_index)
+    # path = path.concat(dfs_path_until_found(target_node_index, current_graph, exit_node_index))
+
+    return path
+
 
 
 def get_bfs_path():

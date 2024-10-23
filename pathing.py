@@ -103,6 +103,7 @@ def bfs_path_until_found(start_index, current_graph, target_index):
 
     visited = set()
     parents = {}
+    parents[start_index] = None
 
     # Loops until there is nothing in the queue or until a path is returned
     while next_list:
@@ -117,14 +118,11 @@ def bfs_path_until_found(start_index, current_graph, target_index):
                 # Returns path if target node is added
                 if (adjacent == target_index):
                     current = adjacent
-                    path.append(current) 
-                    while current: 
-                        path.insert(0, parents[current])
+                    while parents[current] != None: 
+                        path.insert(0, current)
                         current = parents[current]
                     return path
     return path
-
-
 
 def get_bfs_path():
 
@@ -134,6 +132,13 @@ def get_bfs_path():
     exit_node_index = len(current_graph) - 1
 
     path = bfs_path_until_found(current_node_index, current_graph, target_node_index)
+    path  = path + bfs_path_until_found(target_node_index, current_graph, exit_node_index)
+
+    # Postcondition Inline Testing
+    assert target_node_index in path, 'Target Node Index is not in the path.'
+    assert path[len(path) - 1] == exit_node_index, 'Path does not end at exit node.'
+    for index in range(len(path) - 1):
+        assert (path[index] in current_graph[path[index + 1]][1] or path[index] == path[index + 1]), 'Nodes are not connected by an edge.'
 
     return path
 

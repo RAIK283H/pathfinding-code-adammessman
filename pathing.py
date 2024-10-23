@@ -104,32 +104,25 @@ def bfs_path_until_found(start_index, current_graph, target_index):
     visited = set()
     parents = {}
 
-    # Loops until there is nothing in the stack or until a path is returned
+    # Loops until there is nothing in the queue or until a path is returned
     while next_list:
         current = next_list.pop()
-        path.append(current)
         visited.add(current)
         adjacents = current_graph[current][1]
-        # Returns path is target node is added
-        if (current == target_index):
-            return path
-        # # Traces back to parent if all of the adjacents are visited
-        # if all(element in visited for element in adjacents): 
-        #     next_list.append(parents[current])
-        # Adds adjacents to the front of the stack if it has not been visited
         for i in range(len(adjacents)):
             adjacent = adjacents[i]
             if adjacent not in visited:
-                parents[adjacent] = current
                 next_list.insert(0, adjacent)
-                if len(adjacents) > 1:
-                    next_list.insert(0, parents[adjacent])
-                if i == len(adjacents) - 1: 
-                    next_list.insert(0, adjacents[0])
-        
-
-
-
+                parents[adjacent] = current
+                # Returns path if target node is added
+                if (adjacent == target_index):
+                    current = adjacent
+                    path.append(current) 
+                    while current: 
+                        path.insert(0, parents[current])
+                        current = parents[current]
+                    return path
+    return path
 
 
 

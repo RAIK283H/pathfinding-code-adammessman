@@ -130,15 +130,16 @@ class Scoreboard:
     def update_winner_display(self):
         candidates = []
         target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
-        for player_index in range(len(global_game_data.player_objects)):
-            if target_node_index in global_game_data.graph_paths[player_index] and global_game_data.player_objects[player_index].distance_traveled > 0:
+        for player_index in range(len(global_game_data.player_objects) - 1):
+            if (target_node_index in global_game_data.graph_paths[player_index]) and (global_game_data.player_objects[player_index].distance_traveled > 0):
                 candidates.append(player_index)
+        # While no candidates have completed the graph, no winner will be displayed
         if not candidates:
             self.winner_display[0].text = "Winner: "
+        # Displays the current winner that has completed the graph. This can change once a new player has completed the graph.
         else: 
             winner_index = candidates[0]
             for index in range(len(candidates)):
-                # Need to check to make sure winner index is in candiates, may need to refactor
                 if global_game_data.player_objects[candidates[index]].distance_traveled < global_game_data.player_objects[winner_index].distance_traveled:
                     winner_index = candidates[index]
             self.winner_display[0].text = "Winner: " + str(config_data.player_data[winner_index][0])

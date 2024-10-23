@@ -130,7 +130,7 @@ class Scoreboard:
     def update_winner_display(self):
         candidates = []
         target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
-        for player_index in range(len(global_game_data.player_objects) - 1):
+        for player_index in range(len(global_game_data.player_objects)):
             if (target_node_index in global_game_data.graph_paths[player_index]) and (global_game_data.player_objects[player_index].distance_traveled > 0):
                 candidates.append(player_index)
         # While no candidates have completed the graph, no winner will be displayed

@@ -41,7 +41,22 @@ class TestPathFinding(unittest.TestCase):
         actual = pathing.dfs_path_until_found(start_index, current_graph, target_index)
         self.assertEqual(expected, actual, 'Path with DFS back tracking is not accurate.')
 
-    # TODO: UNIT TEST BFS
+    def test_create_dfs_path_to_target_happy(self):
+        current_graph  = graph_data.graph_data[3]
+        start_index =  0
+        target_index = 2
+        expected = [1, 2]
+        actual = pathing.bfs_path_until_found(start_index, current_graph, target_index)
+        self.assertEqual(expected, actual, 'Path for BFS is not accurate.')
+
+    def test_create_dfs_path_to_target_full_path(self):
+        current_graph  = graph_data.graph_data[7]
+        start_index =  0
+        target_index = 5
+        exit_index = len(current_graph) - 1
+        expected = [5, 9]
+        actual = pathing.bfs_path_until_found(start_index, current_graph, target_index) + pathing.bfs_path_until_found(target_index, current_graph, exit_index)
+        self.assertEqual(expected, actual, 'Path with BFS back tracking is not accurate.')
 
 
 if __name__ == '__main__':

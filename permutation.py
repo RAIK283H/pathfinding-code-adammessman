@@ -20,7 +20,7 @@ def find_largest_mobile(nodes):
     
     # Sets the largest to -1 if the first index in list is wrong
     if (nodes[0] < 0) or (nodes[0] < nodes[i]):
-        largest_mobile_index = 0
+        largest_mobile_index = -1
     return largest_mobile_index
 
     # Notes:
@@ -30,6 +30,12 @@ def swap(list, index_to, index_from):
     temp = list[index_from]
     list[index_from] = list[index_to]
     list[index_to] = temp
+
+def switch_directions_if_greater(list, threshold):
+    for element in list:
+        if (element > abs(threshold)):
+            element = element * -1
+
 
 
 def SJT_algorithm(graph):
@@ -42,10 +48,18 @@ def SJT_algorithm(graph):
     permutations = []
     permutations.append(cycle_nodes)
 
-    largest_mobile_index = find_largest_mobile() 
+    largest_mobile_index = find_largest_mobile(cycle_nodes) 
     while (largest_mobile_index > -1):
         if (cycle_nodes[largest_mobile_index] > 0):
-            swap(cycle_nodes, i, i + 1)
+            swap(cycle_nodes, largest_mobile_index, largest_mobile_index + 1)
+            switch_directions_if_greater(cycle_nodes, cycle_nodes[largest_mobile_index + 1])
+        else:
+            swap(cycle_nodes, largest_mobile_index, largest_mobile_index - 1)
+            switch_directions_if_greater(cycle_nodes, cycle_nodes[largest_mobile_index - 1])
+        permutations.append(cycle_nodes)
+        largest_mobile_index = find_largest_mobile(cycle_nodes)
+
+    return permutations
             
             
 def main():

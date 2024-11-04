@@ -2,6 +2,7 @@ import math
 import unittest
 import graph_data
 import pathing
+import permutation
 
 
 class TestPathFinding(unittest.TestCase):
@@ -57,6 +58,12 @@ class TestPathFinding(unittest.TestCase):
         expected = [5, 9]
         actual = pathing.bfs_path_until_found(start_index, current_graph, target_index) + pathing.bfs_path_until_found(target_index, current_graph, exit_index)
         self.assertEqual(expected, actual, 'Path with BFS back tracking is not accurate.')
+
+    def test_find_largest_mobile(self):
+        list = [-1, -2, -3, -4, -5]
+        expected = 4
+        actual = permutation.find_largest_mobile(list)
+        self.assertEqual(expected, actual, 'The largest mobile element was not properly found.')
 
 
 if __name__ == '__main__':

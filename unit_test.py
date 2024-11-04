@@ -3,6 +3,7 @@ import unittest
 import graph_data
 import pathing
 import permutation
+import main_no_pyglet
 
 
 class TestPathFinding(unittest.TestCase):
@@ -89,8 +90,13 @@ class TestPathFinding(unittest.TestCase):
         actual = permutation.find_largest_mobile(list)
         self.assertEqual(expected, actual, 'The largest mobile element was not properly found.')
 
-    def permutation_of_three_nodes(self):
-        graph = graph_data.graph_data[0]
+    def test_permutation_of_three_nodes(self):
+        graph = [[(0, 0), [1]], 
+                 [(0, 1), [0, 2, 3]], 
+                 [(0, 2), [1, 3]], 
+                 [(2, 3), [1, 2, 4]], 
+                 [(5, 0), [3]],
+                 ]
         expected = [[1, 2, 3],
                 [1, 3, 2],
                 [3, 1, 2],
@@ -101,6 +107,23 @@ class TestPathFinding(unittest.TestCase):
         actual = permutation.SJT_algorithm(graph)
         self.assertEqual(expected, actual, 'Permutations not found properly.')
 
+    def test_valid_hamiltonian_cycle_all_valid(self):
+        graph = [[(0, 0), [1]], 
+                 [(0, 1), [0, 2, 3]], 
+                 [(0, 2), [1, 3]], 
+                 [(2, 3), [1, 2, 4]], 
+                 [(5, 0), [3]],
+                 ]
+        expected = [[1, 2, 3],
+                [1, 3, 2],
+                [3, 1, 2],
+                [3, 2, 1], 
+                [2, 3, 1], 
+                [2, 1, 3], 
+                ]
+        actual = main_no_pyglet.check_hamiltonian_cycle(permutation.SJT_algorithm(graph), graph)
+        self.assertEqual(expected, actual, 'Hamiltonian cycles not found properly.')
+        
 
 
 if __name__ == '__main__':

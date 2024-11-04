@@ -38,7 +38,7 @@ def swap(list, index_to, index_from):
 
 def switch_directions_if_greater(list, threshold):
     for i in range(len(list)):
-        if list[i] > abs(threshold):
+        if abs(list[i]) > abs(threshold):
             list[i] = list[i] * -1 
     
     
@@ -47,9 +47,10 @@ def switch_directions_if_greater(list, threshold):
     #         element = element * -1
 
 def make_positive(list):
-    for element in list:
-        if element < 0:
-            element = element * -1
+    for i in range(len(list)):
+        if list[i] < 0:
+            list[i] = list[i] * -1
+    return list
 
 
 
@@ -61,10 +62,7 @@ def SJT_algorithm(graph):
         cycle_nodes.append(i * -1)
 
     permutations = []
-    permutations.append(cycle_nodes)
-
-    # for testing
-    count = 0
+    permutations.append(make_positive(cycle_nodes.copy()))
 
     largest_mobile_index = find_largest_mobile(cycle_nodes) 
     while (largest_mobile_index != -1):
@@ -74,17 +72,18 @@ def SJT_algorithm(graph):
         else:
             swap(cycle_nodes, largest_mobile_index, largest_mobile_index - 1)
             switch_directions_if_greater(cycle_nodes, cycle_nodes[largest_mobile_index - 1])
-        permutations.append(cycle_nodes.copy())
+        permutation = cycle_nodes.copy()
+        permutations.append(make_positive(permutation).copy())
         largest_mobile_index = find_largest_mobile(cycle_nodes)
         
-        count = count + 1
-        print(count)
-
     return permutations
             
             
 def main():
-    return None 
+    # list = [-9, -1, -2, -3, -4, -5, -6, -8, -7]
+    # switch_directions_if_greater(list, list[7])
+    # print(list)
+    return None
 
 main() 
 

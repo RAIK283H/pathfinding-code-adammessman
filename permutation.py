@@ -18,7 +18,7 @@ def find_largest_mobile(nodes):
                 largest_mobile_number = nodes[i]
     
     # Checks to see if last in list points left and is greater than current largest mobile 
-    if (nodes[len(nodes) - 1] < 0) and (abs(nodes[len(nodes) - 1]) > abs(nodes[len(nodes) - 2])):
+    if (nodes[len(nodes) - 1] < 0) and (abs(nodes[len(nodes) - 1]) > abs(nodes[len(nodes) - 2])) and (abs(nodes[len(nodes) - 1]) > abs(largest_mobile_number)):
         largest_mobile_index = len(nodes) - 1
         largest_mobile_number = nodes[len(nodes) - 1]
     
@@ -29,6 +29,7 @@ def find_largest_mobile(nodes):
 
     # Notes:
     # move first check to last, and still 0 in last case
+    # make copy, then wipe negatives
 
 def swap(list, index_to, index_from):
     temp = list[index_from]
@@ -36,8 +37,18 @@ def swap(list, index_to, index_from):
     list[index_to] = temp
 
 def switch_directions_if_greater(list, threshold):
+    for i in range(len(list)):
+        if list[i] > abs(threshold):
+            list[i] = list[i] * -1 
+    
+    
+    # for element in list:
+    #     if (abs(element) > abs(threshold)):
+    #         element = element * -1
+
+def make_positive(list):
     for element in list:
-        if (element > abs(threshold)):
+        if element < 0:
             element = element * -1
 
 
@@ -63,7 +74,7 @@ def SJT_algorithm(graph):
         else:
             swap(cycle_nodes, largest_mobile_index, largest_mobile_index - 1)
             switch_directions_if_greater(cycle_nodes, cycle_nodes[largest_mobile_index - 1])
-        permutations.append(cycle_nodes)
+        permutations.append(cycle_nodes.copy())
         largest_mobile_index = find_largest_mobile(cycle_nodes)
         
         count = count + 1

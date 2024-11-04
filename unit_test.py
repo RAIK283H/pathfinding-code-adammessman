@@ -83,6 +83,24 @@ class TestPathFinding(unittest.TestCase):
         actual = permutation.find_largest_mobile(list)
         self.assertEqual(expected, actual, 'The largest mobile element was not properly found.')
 
+    def test_find_largest_w_correct_in_middle_second_last(self):
+        list = [-1, -2, -5, -3, -4]
+        expected = 2
+        actual = permutation.find_largest_mobile(list)
+        self.assertEqual(expected, actual, 'The largest mobile element was not properly found.')
+
+    def permutation_of_three_nodes(self):
+        graph = graph_data.graph_data[0]
+        expected = [[1, 2, 3],
+                [1, 3, 2],
+                [3, 1, 2],
+                [3, 2, 1], 
+                [2, 3, 1], 
+                [2, 1, 3], 
+                ]
+        actual = permutation.SJT_algorithm(graph)
+        self.assertEqual(expected, actual, 'Permutations not found properly.')
+
 
 
 if __name__ == '__main__':

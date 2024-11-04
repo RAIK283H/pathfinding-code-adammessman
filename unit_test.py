@@ -77,6 +77,12 @@ class TestPathFinding(unittest.TestCase):
         actual = permutation.find_largest_mobile(list)
         self.assertEqual(expected, actual, 'The largest mobile element was not properly found.')
 
+    def test_find_largest_mobile_no_mobile(self):
+        list = [-5, -4, -3, -2, -1]
+        expected = -1
+        actual = permutation.find_largest_mobile(list)
+        self.assertEqual(expected, actual, 'The largest mobile element was not properly found.')
+
 
 
 if __name__ == '__main__':

@@ -2,29 +2,33 @@
 
 def find_largest_mobile(nodes):
     largest_mobile_index = 0
+    largest_mobile_number = 0
     
     # Loops through to check if others are higher mobile
     for i in range(1, len(nodes) - 1):
         # Case if negative number
         if(nodes[i] < 0):
-            if (abs(nodes[i]) > abs(nodes[largest_mobile_index])) and (abs(nodes[i]) > abs(nodes[i - 1])):
+            if (abs(nodes[i]) > abs(largest_mobile_number)) and (abs(nodes[i]) > abs(nodes[i - 1])):
                 largest_mobile_index = i
+                largest_mobile_number = nodes[i]
         # Case if positive number
         else:
-            if (nodes[i] > abs(nodes[largest_mobile_index])) and (nodes[i] > nodes[i + 1]):
+            if (nodes[i] > abs(largest_mobile_number)) and (nodes[i] > abs(nodes[i + 1])):
                 largest_mobile_index = i
+                largest_mobile_number = nodes[i]
     
     # Checks to see if last in list points left and is greater than current largest mobile 
-    if (nodes[len(nodes) - 1] < 0) and (abs(nodes[len(nodes) - 1]) > abs(nodes[largest_mobile_index])):
+    if (nodes[len(nodes) - 1] < 0) and (abs(nodes[len(nodes) - 1]) > abs(largest_mobile_number)):
         largest_mobile_index = len(nodes) - 1
+        largest_mobile_number = nodes[len(nodes) - 1]
     
     # Sets the largest to -1 if the first index in list is wrong
-    if (nodes[0] < 0) or (nodes[0] < nodes[i]):
+    if (largest_mobile_number == 0) and ((nodes[0] < 0) or (abs(nodes[0]) < abs(nodes[1]))):
         largest_mobile_index = -1
     return largest_mobile_index
 
     # Notes:
-    # move first check to last, 
+    # move first check to last, and still 0 in last case
 
 def swap(list, index_to, index_from):
     temp = list[index_from]
@@ -63,9 +67,7 @@ def SJT_algorithm(graph):
             
             
 def main():
-    list = [1, 2, 3, 4, 5]
-    swap(list, 0, 4)
-    print(list)
+    return None 
 
 main() 
 

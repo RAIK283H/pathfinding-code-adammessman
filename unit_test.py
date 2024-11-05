@@ -123,6 +123,39 @@ class TestPathFinding(unittest.TestCase):
                 ]
         actual = main_no_pyglet.check_hamiltonian_cycle(permutation.SJT_algorithm(graph), graph)
         self.assertEqual(expected, actual, 'Hamiltonian cycles not found properly.')
+
+    def test_valid_hamiltonian_cycle_none_valid(self):
+        graph = [[(0, 0), [1]], 
+                 [(0, 1), [0, 2]], 
+                 [(0, 2), [1, 3]], 
+                 [(2, 3), [2, 4]], 
+                 [(5, 0), [3]],
+                 ]
+        expected = []
+        actual = main_no_pyglet.check_hamiltonian_cycle(permutation.SJT_algorithm(graph), graph)
+        self.assertEqual(expected, actual, 'Hamiltonian cycles not found properly.')
+
+    def test_switch_direction_if_greater_happy(self):
+        list = [1, 2, 3, 4, 5]
+        threshold = 3
+        expected = [1, 2, 3, -4, -5]
+        actual = permutation.switch_directions_if_greater(list, threshold)
+        self.assertEqual(expected, actual, 'Switch signs function if greater than threshold did not happen properly.')
+
+    
+    def test_switch_direction_if_greater_happy(self):
+        list = [-1, 2, -3, -4, 5]
+        threshold = -3
+        expected = [-1, 2, -3, 4, -5]
+        actual = permutation.switch_directions_if_greater(list, threshold)
+        self.assertEqual(expected, actual, 'Switch signs function if greater than threshold did not happen properly.')
+
+    def test_make_positive(self):
+        list = [-1, 2, -3, -4, 5]
+        expected = [1, 2, 3, 4, 5]
+        actual = permutation.make_positive(list)
+        self.assertEqual(expected, actual, 'Not all numbers were positive.')
+
         
 
 

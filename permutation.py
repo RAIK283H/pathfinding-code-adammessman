@@ -27,9 +27,6 @@ def find_largest_mobile(nodes):
         largest_mobile_index = -1
     return largest_mobile_index
 
-    # Notes:
-    # move first check to last, and still 0 in last case
-    # make copy, then wipe negatives
 
 def swap(list, index_to, index_from):
     temp = list[index_from]

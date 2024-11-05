@@ -131,7 +131,7 @@ class TestPathFinding(unittest.TestCase):
                  [(2, 3), [2, 4]], 
                  [(5, 0), [3]],
                  ]
-        expected = []
+        expected = False
         actual = main_no_pyglet.check_hamiltonian_cycle(permutation.SJT_algorithm(graph), graph)
         self.assertEqual(expected, actual, 'Hamiltonian cycles not found properly.')
 
@@ -155,6 +155,25 @@ class TestPathFinding(unittest.TestCase):
         expected = [1, 2, 3, 4, 5]
         actual = permutation.make_positive(list)
         self.assertEqual(expected, actual, 'Not all numbers were positive.')
+
+    def test_opitmal_paths(self):
+        graph = [[(0, 0), [1]], 
+                 [(0, 1), [0, 2, 3]], 
+                 [(0, 2), [1, 3]], 
+                 [(2, 3), [1, 2, 4]], 
+                 [(5, 0), [3]],
+                 ]
+        expected = [[1, 2, 3],
+                [1, 3, 2],
+                [3, 1, 2],
+                [3, 2, 1], 
+                [2, 3, 1], 
+                [2, 1, 3], 
+                ]
+        valid_cycles = main_no_pyglet.check_hamiltonian_cycle(permutation.SJT_algorithm(graph), graph)
+        print(valid_cycles)
+        actual = main_no_pyglet.optimal_hamiltonian_cycle(valid_cycles, graph)
+        self.assertEqual(expected, actual, 'Optimal paths not provided.')
 
         
 

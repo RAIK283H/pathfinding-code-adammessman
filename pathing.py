@@ -134,7 +134,7 @@ def get_bfs_path():
     exit_node_index = len(current_graph) - 1
 
     path = bfs_path_until_found(current_node_index, current_graph, target_node_index)
-    path  = path + bfs_path_until_found(target_node_index, current_graph, exit_node_index)
+    path = path + bfs_path_until_found(target_node_index, current_graph, exit_node_index)
 
     # Postcondition Inline Testing
     assert target_node_index in path, 'Target Node Index is not in the path.'
@@ -150,6 +150,7 @@ def euclidian_distance(coord1, coord2):
 def dijkstra_helper(current_graph, start_node_index, target_node_index):
     # Initial set up of the data structures
     seen = set()
+    solved = set()
 
     frontier = []
     heapq.heapify(frontier)
@@ -158,37 +159,45 @@ def dijkstra_helper(current_graph, start_node_index, target_node_index):
     parents = {}
     parents[start_node_index] = None
 
+    path = []
+
     # Loops while there is still an element in the frontier
     while frontier:
         distance, current_node_index = heapq.heappop(frontier)
-        current_node_coords = current_graph[current_node_index][0]
+        solved.add(current_node_index)
         
         # Checks to see if the target node has been reached
         if (current_node_index == target_node_index):
             # Return the path if target is found
-            path = []
             while parents[current_node_index] != None: 
                 path.insert(0, current_node_index)
                 current_node_index = parents[current_node_index]
+                print (current_node_index)
+
             print(path)
             return path
         
         # Gets and takes care of the neighbors 
         neighbors = current_graph[current_node_index][1]
+        current_node_coords = current_graph[current_node_index][0]
         for neighbor in neighbors:
-            neighbor_coords = current_graph[neighbor][0]
-            # Case if already seen (may need updating)
-            if neighbor in seen:
-                # Update the distance if the new distance is shorter
-                for element in frontier:
-                    if (element[1] == neighbor) and (element[0] > (distance + euclidian_distance(current_node_coords, neighbor_coords))):
-                         frontier.remove(element)
-                         heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
-            # Case if not seen yet
-            else: 
-                heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
-            parents[neighbor] = current_node_index
-            seen.add(neighbor)
+            if neighbor not in solved:
+                neighbor_coords = current_graph[neighbor][0]
+                # Case if already seen (may need updating)
+                if neighbor in seen:
+                    # Update the distance if the new distance is shorter
+                    for element in frontier:
+                        if (element[1] == neighbor) and (element[0] > (distance + euclidian_distance(current_node_coords, neighbor_coords))):
+                            frontier.remove(element)
+                            heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
+                            parents[neighbor] = current_node_index
+
+                # Case if not seen yet
+                else: 
+                    heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
+                    seen.add(neighbor)
+                    parents[neighbor] = current_node_index
+
 
     return None
 
@@ -201,5 +210,6 @@ def get_dijkstra_path():
     exit_node_index = len(current_graph) - 1
 
     path = dijkstra_helper(current_graph, current_node_index, target_node_index)
+    path = path + dijkstra_helper(current_graph, target_node_index, exit_node_index)
 
     return path

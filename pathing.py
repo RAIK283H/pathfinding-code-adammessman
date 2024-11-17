@@ -1,6 +1,8 @@
 import graph_data
 import global_game_data
 from numpy import random
+import heapq 
+import math
 
 def set_current_graph_paths():
     global_game_data.graph_paths.clear()
@@ -142,6 +144,49 @@ def get_bfs_path():
 
     return path
 
+def euclidian_distance(coord1, coord2):
+    return math.sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2) 
+
+def dijkstra_helper(current_graph, start_node_index, target_node_index):
+    visited = set()
+
+    frontier = []
+    heapq.heapify(frontier)
+    heapq.heappush(frontier, (0, start_node_index))
+    parents = {}
+    parents[start_node_index] = None
+
+    while frontier:
+        distance, current_node_index = heapq.heappop(frontier)
+        current_node_coords = current_graph[current_node_index][0]
+        if (current_node_index == target_node_index):
+            # Return the path if target is found
+            path = []
+            while parents[current_node_index] != None: 
+                path.insert(0, current_node_index)
+                current_node_index = parents[current_node_index]
+
+            print(path)
+            
+            return path
+        neighbors = current_graph[current_node_index][1]
+        for neighbor in neighbors:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parents[neighbor] = current_node_index
+                neighbor_coords = current_graph[neighbor][0]
+                heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
+
+    return
 
 def get_dijkstra_path():
-    return [1,2]
+
+    # Sets travel nodes
+    current_graph = graph_data.graph_data[global_game_data.current_graph_index]
+    current_node_index = 0
+    target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
+    exit_node_index = len(current_graph) - 1
+
+    path = dijkstra_helper(current_graph, current_node_index, target_node_index)
+
+    return path

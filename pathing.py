@@ -211,8 +211,6 @@ def get_dijkstra_path():
     path = dijkstra_helper(current_graph, start_node_index, target_node_index)
     path = path + (dijkstra_helper(current_graph, target_node_index, exit_node_index))
 
-    print(path)
-
     # Inline Testing
     assert path[0] == start_node_index, 'Path does not start with the start node.'
     assert target_node_index in path, 'Target Node Index is not in the path.'

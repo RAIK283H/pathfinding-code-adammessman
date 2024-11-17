@@ -172,9 +172,7 @@ def dijkstra_helper(current_graph, start_node_index, target_node_index):
             while parents[current_node_index] != None: 
                 path.insert(0, current_node_index)
                 current_node_index = parents[current_node_index]
-                print (current_node_index)
-
-            print(path)
+            path.insert(0, start_node_index)
             return path
         
         # Gets and takes care of the neighbors 
@@ -205,11 +203,19 @@ def get_dijkstra_path():
 
     # Sets travel nodes
     current_graph = graph_data.graph_data[global_game_data.current_graph_index]
-    current_node_index = 0
+    start_node_index = 0
     target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
     exit_node_index = len(current_graph) - 1
 
-    path = dijkstra_helper(current_graph, current_node_index, target_node_index)
-    path = path + dijkstra_helper(current_graph, target_node_index, exit_node_index)
+    path = dijkstra_helper(current_graph, start_node_index, target_node_index)
+    path.extend(dijkstra_helper(current_graph, target_node_index, exit_node_index))
+
+    # Inline Testing
+    assert path[0] == start_node_index, 'Path does not start with the start node.'
+    assert target_node_index in path, 'Target Node Index is not in the path.'
+    assert path[len(path) - 1] == exit_node_index, 'Path does not end at exit node.'
+    for index in range(len(path) - 1):
+        assert (path[index] in current_graph[path[index + 1]][1] or path[index] == path[index + 1]), 'Nodes are not connected by an edge.'
+
 
     return path

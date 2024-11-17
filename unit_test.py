@@ -175,7 +175,22 @@ class TestPathFinding(unittest.TestCase):
         actual = main_no_pyglet.optimal_hamiltonian_cycle(valid_cycles, graph)
         self.assertEqual(expected, actual, 'Optimal paths not provided.')
 
+    def test_dijkstra_helper_happy_path(self):
+        current_graph  = graph_data.graph_data[3]
+        start_index =  0
+        target_index = 2
+        expected = [0, 1, 2]
+        actual = pathing.dijkstra_helper(current_graph, start_index, target_index)
+        self.assertEqual(expected, actual, 'Path for Dijkstra\'s is not accurate.')
         
+    def test_dijkstra_helper_full_path(self):
+        current_graph  = graph_data.graph_data[7]
+        start_index =  0
+        target_index = 5
+        exit_index = len(current_graph) - 1
+        expected = [0, 5, 5, 9]
+        actual = pathing.dijkstra_helper(current_graph, start_index, target_index) + pathing.dijkstra_helper(current_graph, target_index, exit_index)
+        self.assertEqual(expected, actual, 'Full path with Dijkstra\'s is not accurate.')
 
 
 if __name__ == '__main__':

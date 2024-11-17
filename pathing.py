@@ -187,7 +187,7 @@ def dijkstra_helper(current_graph, start_node_index, target_node_index):
                     for element in frontier:
                         if (element[1] == neighbor) and (element[0] > (distance + euclidian_distance(current_node_coords, neighbor_coords))):
                             frontier.remove(element)
-                            heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
+                            heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords) + a_star_heuristic(current_node_coords, current_graph[target_node_index][0]), neighbor))
                             parents[neighbor] = current_node_index
 
                 # Case if not seen yet
@@ -208,7 +208,7 @@ def get_dijkstra_path():
     exit_node_index = len(current_graph) - 1
 
     path = dijkstra_helper(current_graph, start_node_index, target_node_index)
-    path.extend(dijkstra_helper(current_graph, target_node_index, exit_node_index))
+    path = path + (dijkstra_helper(current_graph, target_node_index, exit_node_index))
 
     # Inline Testing
     assert path[0] == start_node_index, 'Path does not start with the start node.'
@@ -219,3 +219,6 @@ def get_dijkstra_path():
 
 
     return path
+
+def a_star_heuristic(current_node_coords, target_node_coords):
+    return euclidian_distance(current_node_coords, target_node_coords)

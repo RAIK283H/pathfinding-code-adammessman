@@ -148,36 +148,49 @@ def euclidian_distance(coord1, coord2):
     return math.sqrt((coord1[0] - coord2[0])**2 + (coord1[1] - coord2[1])**2) 
 
 def dijkstra_helper(current_graph, start_node_index, target_node_index):
-    visited = set()
+    # Initial set up of the data structures
+    seen = set()
 
     frontier = []
     heapq.heapify(frontier)
     heapq.heappush(frontier, (0, start_node_index))
+    
     parents = {}
     parents[start_node_index] = None
 
+    # Loops while there is still an element in the frontier
     while frontier:
         distance, current_node_index = heapq.heappop(frontier)
         current_node_coords = current_graph[current_node_index][0]
+        
+        # Checks to see if the target node has been reached
         if (current_node_index == target_node_index):
             # Return the path if target is found
             path = []
             while parents[current_node_index] != None: 
                 path.insert(0, current_node_index)
                 current_node_index = parents[current_node_index]
-
             print(path)
-            
             return path
+        
+        # Gets and takes care of the neighbors 
         neighbors = current_graph[current_node_index][1]
         for neighbor in neighbors:
-            if neighbor not in visited:
-                visited.add(neighbor)
-                parents[neighbor] = current_node_index
-                neighbor_coords = current_graph[neighbor][0]
+            neighbor_coords = current_graph[neighbor][0]
+            # Case if already seen (may need updating)
+            if neighbor in seen:
+                # Update the distance if the new distance is shorter
+                for element in frontier:
+                    if (element[1] == neighbor) and (element[0] > (distance + euclidian_distance(current_node_coords, neighbor_coords))):
+                         frontier.remove(element)
+                         heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
+            # Case if not seen yet
+            else: 
                 heapq.heappush(frontier, (distance + euclidian_distance(current_node_coords, neighbor_coords), neighbor))
+            parents[neighbor] = current_node_index
+            seen.add(neighbor)
 
-    return
+    return None
 
 def get_dijkstra_path():
 

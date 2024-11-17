@@ -139,8 +139,9 @@ def get_bfs_path():
     # Postcondition Inline Testing
     assert target_node_index in path, 'Target Node Index is not in the path.'
     assert path[len(path) - 1] == exit_node_index, 'Path does not end at exit node.'
+
     for index in range(len(path) - 1):
-        assert (path[index] in current_graph[path[index + 1]][1] or path[index] == path[index + 1]), 'Nodes are not connected by an edge.'
+        assert ((path[index] in current_graph[path[index + 1]][1]) or (path[index] == path[index + 1])), 'Nodes are not connected by an edge.'
 
     return path
 
@@ -210,12 +211,14 @@ def get_dijkstra_path():
     path = dijkstra_helper(current_graph, start_node_index, target_node_index)
     path = path + (dijkstra_helper(current_graph, target_node_index, exit_node_index))
 
+    print(path)
+
     # Inline Testing
     assert path[0] == start_node_index, 'Path does not start with the start node.'
     assert target_node_index in path, 'Target Node Index is not in the path.'
     assert path[len(path) - 1] == exit_node_index, 'Path does not end at exit node.'
-    for index in range(len(path) - 1):
-        assert (path[index] in current_graph[path[index + 1]][1] or path[index] == path[index + 1]), 'Nodes are not connected by an edge.'
+    for index in range(len(path) - 1):              # <--- This was the error
+        assert ((path[index + 1] in current_graph[path[index]][1]) or (path[index] == path[index + 1])), 'Nodes are not connected by an edge.'
 
 
     return path

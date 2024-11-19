@@ -192,6 +192,24 @@ class TestPathFinding(unittest.TestCase):
         actual = pathing.dijkstra_helper(current_graph, start_index, target_index) + pathing.dijkstra_helper(current_graph, target_index, exit_index)
         self.assertEqual(expected, actual, 'Full path with Dijkstra\'s is not accurate.')
 
+    def test_dijkstra_helper_graph_with_cycles(self):
+        current_graph  = graph_data.graph_data[4]
+        start_index =  0
+        target_index = 5
+        exit_index = len(current_graph) - 1
+        expected = [0, 1, 2, 5, 5, 6, 9, 10]
+        actual = pathing.dijkstra_helper(current_graph, start_index, target_index) + pathing.dijkstra_helper(current_graph, target_index, exit_index)
+        self.assertEqual(expected, actual, 'Full path with Dijkstra\'s is not accurate.')
+
+    def test_dijkstra_helper_graph_with_equidistance(self):
+        current_graph  = graph_data.graph_data[3]
+        start_index =  0
+        target_index = 5
+        exit_index = len(current_graph) - 1
+        expected = [0, 1, 5, 5, 6, 7, 11, 15]
+        actual = pathing.dijkstra_helper(current_graph, start_index, target_index) + pathing.dijkstra_helper(current_graph, target_index, exit_index)
+        self.assertEqual(expected, actual, 'Full path with Dijkstra\'s is not accurate.')
+
 
 if __name__ == '__main__':
     unittest.main()

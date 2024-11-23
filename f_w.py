@@ -20,16 +20,18 @@ def create_adj_matrix_from_list(graph):
     # matrix[b][a] = node b to node a, (row b, column a)
     matrix = create_blank_matrix(graph)
 
-    for node in graph:
-        node_coords = node[0]
-        adjaceny_list = node[1]
-        for node in adjaceny_list:
-                
+    for index in range(len(graph)):
+        node_coords = graph[index][0]
+        adjaceny_list = graph[index][1]
+        for adj_node in adjaceny_list:
+                adj_node_coords = graph[adj_node][0]
+                edge_weight = euclidian_distance(node_coords, adj_node_coords)
+                matrix[index][adj_node] = edge_weight
 
     return matrix
 
 def main():
-    current_graph = graph_data.graph_data[4]
+    current_graph = graph_data.graph_data[1]
     print(create_adj_matrix_from_list(current_graph))
 
 main()

@@ -30,6 +30,12 @@ def create_adj_matrix_from_list(graph):
 
     return matrix
 
+def floyd_warshall_algorithm(graph_matrix):
+     for k in range(len(graph_matrix)):
+          for i in range(len(graph_matrix)):
+               for j in range(len(graph_matrix)):
+                    graph_matrix[i][j] = min(graph_matrix[i][j], graph_matrix[i][k] + graph_matrix[k][j])
+
 def main():
     current_graph = graph_data.graph_data[1]
     print(create_adj_matrix_from_list(current_graph))

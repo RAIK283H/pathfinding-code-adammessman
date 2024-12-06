@@ -252,7 +252,113 @@ class TestPathFinding(unittest.TestCase):
 
     def test_flyod_warshall_pathing_graph_0(self):
         current_graph = graph_data.graph_data[0]
-        expected = []
+        expected = [0, 1, 2]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_1(self):
+        current_graph = graph_data.graph_data[1]
+        expected = [0, 1, 2, 3]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_2(self):
+        current_graph = graph_data.graph_data[2]
+        expected = [0, 17, 18, 23]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_3(self):
+        current_graph = graph_data.graph_data[3]
+        expected = [0, 1, 2, 3, 7, 11, 15]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_4(self):
+        current_graph = graph_data.graph_data[4]
+        expected = [0, 1, 2, 5, 6, 9, 10]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_5(self):
+        current_graph = graph_data.graph_data[5]
+        expected = [0, 1, 2, 3, 6, 9, 15]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_6(self):
+        current_graph = graph_data.graph_data[6]
+        expected = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_7(self):
+        current_graph = graph_data.graph_data[7]
+        expected = [0, 4, 9]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+    
+    def test_flyod_warshall_pathing_graph_8(self):
+        current_graph = graph_data.graph_data[8]
+        expected = [0, 2, 5, 8, 9]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
+
+    def test_flyod_warshall_pathing_graph_9(self):
+        current_graph = graph_data.graph_data[9]
+        expected = [0, 25]
+        matrix = f_w.create_adj_matrix_from_list(current_graph)
+        parents = f_w.create_blank_matrix(current_graph)
+        f_w.floyd_warshall_algorithm(matrix, parents)
+        start_node_index = 0
+        end_node_index = len(current_graph) - 1
+        actual = f_w.floyd_warshall_path(parents, start_node_index, end_node_index)
+        self.assertEqual(expected, actual, 'The path created is not the optimized path. (Not matching Dijkstra\'s)')
 
 
 if __name__ == '__main__':

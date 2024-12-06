@@ -50,9 +50,10 @@ def floyd_warshall_path(parents, start_node, end_node):
     return path
 
 def main():
-    current_graph = graph_data.graph_data[1]
+    current_graph = graph_data.graph_data[8]
     matrix = create_adj_matrix_from_list(current_graph)
     parents = create_blank_matrix(current_graph)
+    print(parents)
 
     floyd_warshall_algorithm(matrix, parents)
     start_node_index = 0

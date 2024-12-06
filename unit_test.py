@@ -4,6 +4,7 @@ import graph_data
 import pathing
 import permutation
 import main_no_pyglet
+import f_w
 
 
 class TestPathFinding(unittest.TestCase):
@@ -209,6 +210,19 @@ class TestPathFinding(unittest.TestCase):
         expected = [0, 1, 5, 5, 6, 7, 11, 15]
         actual = pathing.dijkstra_helper(current_graph, start_index, target_index) + pathing.dijkstra_helper(current_graph, target_index, exit_index)
         self.assertEqual(expected, actual, 'Full path with Dijkstra\'s is not accurate.')
+
+    def test_create_adj_matrix_from_list(self):
+        current_graph  = graph_data.graph_data[1]
+        expected = [
+            [9223372036854775807, f_w.euclidian_distance(current_graph[0][0], current_graph[1][0]), 9223372036854775807, 9223372036854775807],
+            [f_w.euclidian_distance(current_graph[0][0], current_graph[1][0]), 9223372036854775807, f_w.euclidian_distance(current_graph[1][0], current_graph[2][0]), 9223372036854775807],
+            [9223372036854775807, f_w.euclidian_distance(current_graph[1][0], current_graph[2][0]), 9223372036854775807, f_w.euclidian_distance(current_graph[2][0], current_graph[3][0])],
+            [9223372036854775807, 9223372036854775807, f_w.euclidian_distance(current_graph[2][0], current_graph[3][0]), 9223372036854775807]
+        ]
+        actual = f_w.create_adj_matrix_from_list(current_graph)
+        self.assertEqual(expected, actual, 'Adjacency list not converted into a adjacency matrix properly.')
+
+    
 
 
 if __name__ == '__main__':

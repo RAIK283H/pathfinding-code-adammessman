@@ -19,7 +19,6 @@ def create_adj_matrix_from_list(graph):
     # matrix[a][b] = node a to node b, (row a, column b)
     # matrix[b][a] = node b to node a, (row b, column a)
     matrix = create_blank_matrix(graph)
-    parents = create_blank_matrix(graph)
 
     for index in range(len(graph)):
         node_coords = graph[index][0]
@@ -28,24 +27,18 @@ def create_adj_matrix_from_list(graph):
                 adj_node_coords = graph[adj_node][0]
                 edge_weight = euclidian_distance(node_coords, adj_node_coords)
                 matrix[index][adj_node] = edge_weight
-                
-                # TODO: CHECK THIS
-                # parents[index][adj_node] = index
 
-    return matrix, parents
+    return matrix
 
 # NOTE: May need to return the matrix and parents   
 def floyd_warshall_algorithm(graph_matrix, parents):
      for k in range(len(graph_matrix)):
           for i in range(len(graph_matrix)):
                for j in range(len(graph_matrix)):
-                    # TODO: Check to make sure the -1 doesnt cause a comparison issue
                     if (graph_matrix[i][k] + graph_matrix[k][j] < graph_matrix[i][j]):
                         graph_matrix[i][j] = graph_matrix[i][k] + graph_matrix[k][j]
                         parents[i][j] = k
                     
-                    # graph_matrix[i][j] = min(graph_matrix[i][j], graph_matrix[i][k] + graph_matrix[k][j])
-
 def floyd_warshall_path(parents, start_node, end_node):
     path = []
     parent = parents[start_node][end_node]
@@ -58,7 +51,9 @@ def floyd_warshall_path(parents, start_node, end_node):
 
 def main():
     current_graph = graph_data.graph_data[1]
-    matrix, parents = create_adj_matrix_from_list(current_graph)
+    matrix = create_adj_matrix_from_list(current_graph)
+    parents = create_blank_matrix(current_graph)
+
     floyd_warshall_algorithm(matrix, parents)
     start_node_index = 0
     end_node_index = len(current_graph) - 1

@@ -3,6 +3,7 @@ import global_game_data
 from numpy import random
 import heapq 
 import math
+import f_w
 
 def set_current_graph_paths():
     global_game_data.graph_paths.clear()
@@ -10,7 +11,10 @@ def set_current_graph_paths():
     global_game_data.graph_paths.append(get_random_path())
     global_game_data.graph_paths.append(get_dfs_path())
     global_game_data.graph_paths.append(get_bfs_path())
-    global_game_data.graph_paths.append(get_dijkstra_path())
+
+    # Replaced Dijkstra's with Flyod-Warshall Pathing
+    global_game_data.graph_paths.append(get_f_w_path())
+    #global_game_data.graph_paths.append(get_dijkstra_path())
 
 
 def get_test_path():
@@ -223,3 +227,20 @@ def get_dijkstra_path():
 
 def a_star_heuristic(current_node_coords, target_node_coords):
     return euclidian_distance(current_node_coords, target_node_coords)
+
+# Function created to creat pathing with Floyd-Warshall algo
+def get_f_w_path():
+    current_graph = graph_data.graph_data[global_game_data.current_graph_index]
+    start_node_index = 0
+    target_node_index = global_game_data.target_node[global_game_data.current_graph_index]
+    exit_node_index = len(current_graph) - 1
+
+    matrix = f_w.create_adj_matrix_from_list(current_graph)
+    parents = f_w.create_blank_matrix(current_graph)
+
+    f_w.floyd_warshall_algorithm(matrix, parents)
+    path = f_w.floyd_warshall_path(parents, start_node_index, target_node_index) + f_w.floyd_warshall_path(parents, target_node_index, exit_node_index)
+    return path
+
+
+
